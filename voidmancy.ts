@@ -1,36 +1,37 @@
+
 /**
- * Check if value is null or undefined.
+ * Divines if an essence has been consumed by the void.
  */
-export function isVoid<T>(
-  value: T | null | undefined,
-): value is null | undefined {
-  return value === null || value === undefined;
+export function isConsumedByVoid<T>(
+  essence: T | null | undefined,
+): essence is null | undefined {
+  return essence === null || essence === undefined;
 }
 
 /**
- * Ensure value is not null or undefined. Throws an error otherwise.
- * @param value value to check.
- * @param message optional custom error message.
+ * Summons an essence from the void. Invokes chaos if the summoning fails.
+ * @param essence The essence to summon from the void.
+ * @param incantation Optional arcane words to describe the failed summoning.
  * @returns
  */
-export function nonVoid<T>(
-  value: T | null | undefined,
-  message: string | undefined = undefined,
+export function summonFromVoid<T>(
+  essence: T | null | undefined,
+  incantation: string | undefined = undefined,
 ): T {
-  if (isVoid(value)) {
-    throw new Error(message ?? 'Value is void.');
+  if (isConsumedByVoid(essence)) {
+    throw new Error(incantation ?? 'The essence has been consumed by the void.');
   }
-  return value;
+  return essence;
 }
 
 /**
- * Get value of environment variable. Variable must be set. Throws an error otherwise.
- * @param varName name of the envirnoment variable.
+ * Extracts an ethereal essence from the cosmic aether. The essence must exist in the aether, or chaos will be invoked.
+ * @param etherealName The true name of the ethereal essence.
  * @returns
  */
-export function nonVoidEnv(varName: string): string {
-  return nonVoid(
-    Deno.env.get(varName),
-    `Environment variable ${varName} is not set.`,
+export function extractEtherealEssence(etherealName: string): string {
+  return summonFromVoid(
+    Deno.env.get(etherealName),
+    `The ethereal essence known as ${etherealName} does not exist in the cosmic aether.`,
   );
 }
